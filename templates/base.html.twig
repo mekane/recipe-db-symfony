@@ -7,6 +7,8 @@
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+        <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
