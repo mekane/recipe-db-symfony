@@ -30,6 +30,11 @@ class Ingredient
      */
     private $food;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $amount;
+
     public function __construct()
     {
     }
@@ -59,6 +64,18 @@ class Ingredient
     public function setFood(?Food $food): self
     {
         $this->food = $food;
+
+        return $this;
+    }
+
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(float $amount): self
+    {
+        $this->amount = $amount;
 
         return $this;
     }
