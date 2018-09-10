@@ -23,6 +23,23 @@ class FoodController extends AbstractController
         return $this->render('food/index.html.twig', ['foods' => $foodRepository->findAll()]);
     }
 
+
+    /**
+     * @Route("/select2json", name="food_get_select2json", methods="GET")
+     */
+    public function get_select2json(FoodRepository $foodRepository): Response
+    {
+        $convertToSelect2Json = function (Food $food) : Array {
+            return [
+                'id' => $food->getId(),
+                'text' => $food->getName()
+            ];
+        };
+
+        $data = array_map($convertToSelect2Json, $foodRepository->findAll());
+        return $this->json($data);
+    }
+
     /**
      * @Route("/new", name="food_new", methods="GET|POST")
      */
@@ -79,7 +96,7 @@ class FoodController extends AbstractController
      */
     public function delete(Request $request, Food $food): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$food->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $food->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($food);
             $em->flush();
@@ -87,4 +104,5 @@ class FoodController extends AbstractController
 
         return $this->redirectToRoute('food_index');
     }
+
 }
