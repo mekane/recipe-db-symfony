@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Food;
 use App\Entity\Ingredient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +16,9 @@ class IngredientType extends AbstractType
         $builder
             ->add('amount')
             ->add('food', Select2EntityType::class, [
-                'multiple' => true,
+                'class' => Food::class,
+                'text_property' => 'name',
+                'width' => '100%',
                 'remote_route' => 'food_get_select2json'
             ]);
     }
