@@ -20,6 +20,18 @@
                 <td>{{ recipe.description }}</td>
             </tr>
             <tr>
+                <th>Ingredients</th>
+                <td>
+                    <ul>
+                        {% for ingredient in recipe.ingredients %}
+                            <li>
+                                {{ ingredient.amount }} {{ ingredient.food.name }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
                 <th>Instructions</th>
                 <td>{{ recipe.instructions }}</td>
             </tr>
