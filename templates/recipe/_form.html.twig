@@ -1,4 +1,26 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_row(form.name) }}
+{{ form_row(form.description) }}
+
+<ul id="ingredients" data-count="{{ form.ingredients|length }}"
+    data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}">
+    {% for ingredient in form.ingredients %}
+        <li>
+            {{ form_errors(ingredient) }}
+            {{ form_widget(ingredient) }}
+        </li>
+    {% endfor %}
+</ul>
+
+<button type="button"
+        class="recipe-form__add-ingredient-button">Add Ingredient
+</button>
+
+{{ form_row(form.instructions) }}
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_rest(form) }}
+
 {{ form_end(form) }}

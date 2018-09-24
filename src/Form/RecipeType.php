@@ -15,10 +15,12 @@ class RecipeType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('ingredients', CollectionType::class, array(
+            ->add('ingredients', CollectionType::class, [
                 'entry_type' => IngredientType::class,
                 'entry_options' => array('label' => false),
-            ))
+                'by_reference' => false,
+                'allow_add' => true
+            ])
             ->add('instructions');
     }
 

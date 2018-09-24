@@ -34,7 +34,7 @@ class Recipe
     private $instructions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ingredient", mappedBy="recipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Ingredient", mappedBy="recipe", cascade={"persist"}, orphanRemoval=true)
      */
     private $ingredients;
 

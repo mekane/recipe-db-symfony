@@ -13,3 +13,29 @@
 
     {{ include('recipe/_delete_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function addNewIngredient(event) {
+            const $list = $('#ingredients');
+            const nextId = $list.data('count') + 1;
+
+            const prototype = $list.data('prototype');
+            const newInputMarkup = prototype.replace(/__name__/g, nextId);
+            const $newInputRow = $('<li></li>').append(newInputMarkup);
+
+            $list.append($newInputRow);
+            var $select = $newInputRow.find('select');
+            console.log($select);
+            $select.select2entity();
+
+            $list.data('count', nextId);
+        }
+
+        $(function () {
+            $('.recipe-form__add-ingredient-button').on('click', addNewIngredient);
+        });
+    </script>
+{% endblock %}
