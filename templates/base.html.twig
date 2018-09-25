@@ -8,6 +8,11 @@
         {% endblock %}
     </head>
     <body>
+        {% block header %}
+            <header>
+                <a href="{{ path('logout') }}">Log Out</a>
+            </header>
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}
             <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>

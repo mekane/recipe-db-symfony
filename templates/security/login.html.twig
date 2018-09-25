@@ -8,6 +8,8 @@
     {% endif %}
 {% endblock %}
 
+{% block header %}{% endblock %}
+
 {% block body %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -19,6 +21,8 @@
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="_password" />
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
 
         <button type="submit">login</button>
     </form>
