@@ -18,6 +18,23 @@
     {{ parent() }}
 
     <script>
+        $ingredients = $('ul#ingredients');
+
+        function addAddButtonToForm() {
+            $addButton = $(' <button type="button"></button>')
+                    .addClass('recipe-form__add-ingredient-button')
+                    .text('Add Ingredient')
+                    .on('click', addNewIngredient);
+            $ingredients.after($addButton);
+        }
+
+        function addDeleteButton($li) {
+            $button = $('<button type="button"></button>')
+                    .addClass('recipe-form__delete-ingredient-button')
+                    .text('Delete Ingredient');
+            $li.append($button);
+        }
+
         function addNewIngredient(event) {
             const $list = $('#ingredients');
             const nextId = $list.data('count') + 1;
@@ -25,6 +42,8 @@
             const prototype = $list.data('prototype');
             const newInputMarkup = prototype.replace(/__name__/g, nextId);
             const $newInputRow = $('<li></li>').append(newInputMarkup);
+
+            addDeleteButton($newInputRow);
 
             $list.append($newInputRow);
             var $select = $newInputRow.find('select');
@@ -34,8 +53,19 @@
             $list.data('count', nextId);
         }
 
+        function deleteIngredient(event) {
+            const el = $(this);
+
+            console.log('delete ingredient', el);
+        }
+
         $(function () {
-            $('.recipe-form__add-ingredient-button').on('click', addNewIngredient);
+            addAddButtonToForm();
+
+            $ingredients.find('li').each(function (i) {
+                addDeleteButton($(this));
+            });
+            $ingredients.on('click', 'button.recipe-form__delete-ingredient-button', deleteIngredient);
         });
     </script>
 {% endblock %}

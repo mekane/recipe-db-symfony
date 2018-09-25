@@ -19,7 +19,8 @@ class RecipeType extends AbstractType
                 'entry_type' => IngredientType::class,
                 'entry_options' => array('label' => false),
                 'by_reference' => false,
-                'allow_add' => true
+                'allow_add' => true,
+                'allow_delete' => true
             ])
             ->add('instructions');
     }
