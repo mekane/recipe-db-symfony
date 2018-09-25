@@ -34,6 +34,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string the plain-text password (just used when changing the password)
+     */
+    public $plainTextPassword;
+
     public function getId(): ?int
     {
         return $this->id;
