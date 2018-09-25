@@ -18,10 +18,17 @@
     {{ parent() }}
 
     <script>
+        const deletedIngredients = [];
         $ingredients = $('ul#ingredients');
 
+        function addJavaScriptButtons() {
+            addAddButtonToForm();
+            addDeleteButtonsToExistingRows();
+            addUndoDeleteButton();
+        }
+
         function addAddButtonToForm() {
-            $addButton = $(' <button type="button"></button>')
+            const $addButton = $(' <button type="button"></button>')
                     .addClass('recipe-form__add-ingredient-button')
                     .text('Add Ingredient')
                     .on('click', addNewIngredient);
@@ -29,10 +36,25 @@
         }
 
         function addDeleteButton($li) {
-            $button = $('<button type="button"></button>')
+            const $button = $('<button type="button"></button>')
                     .addClass('recipe-form__delete-ingredient-button')
                     .text('Delete Ingredient');
             $li.append($button);
+        }
+
+        function addUndoDeleteButton() {
+            const $undoButton = $(' <button type="button"></button>')
+                    .addClass('recipe-form__undo-delete-ingredient-button')
+                    .text('Undo Last Delete')
+                    .on('click', undoLastDelete);
+            $ingredients.after($undoButton);
+            updateUndoButtonState();
+        }
+
+        function updateUndoButtonState() {
+            const $undoButton = $('.recipe-form__undo-delete-ingredient-button');
+            const disabled = (deletedIngredients.length <= 0);
+            $undoButton.attr('disabled', disabled);
         }
 
         function addNewIngredient(event) {
@@ -46,26 +68,40 @@
             addDeleteButton($newInputRow);
 
             $list.append($newInputRow);
-            var $select = $newInputRow.find('select');
-            console.log($select);
-            $select.select2entity();
+
+            $newInputRow.find('select').select2entity();
 
             $list.data('count', nextId);
         }
 
         function deleteIngredient(event) {
             const el = $(this);
+            const $li = el.parents('li');
 
-            console.log('delete ingredient', el);
+            deletedIngredients.push($li);
+            $li.detach();
+
+            updateUndoButtonState();
         }
 
-        $(function () {
-            addAddButtonToForm();
+        function delegateDeleteButtonClicks() {
+            $ingredients.on('click', 'button.recipe-form__delete-ingredient-button', deleteIngredient);
+        }
 
+        function addDeleteButtonsToExistingRows() {
             $ingredients.find('li').each(function (i) {
                 addDeleteButton($(this));
             });
-            $ingredients.on('click', 'button.recipe-form__delete-ingredient-button', deleteIngredient);
+        }
+
+        function undoLastDelete() {
+            $ingredients.append(deletedIngredients.pop());
+            updateUndoButtonState();
+        }
+
+        $(function () {
+            addJavaScriptButtons();
+            delegateDeleteButtonClicks();
         });
     </script>
 {% endblock %}
