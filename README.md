@@ -13,7 +13,7 @@ A symfony 4 app to track recipes in a database.
    * Create a user for symfony, and the database
    * Adjust mysql connection string in .env
    * run `bin/console doctrine:migrations:migrate` to create DB tables
-   * Add a user
+   * Add a default admin user `admin@localhost` by running `bin/console app:make-user`
 
 ## Running the App
 
